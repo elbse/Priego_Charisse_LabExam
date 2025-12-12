@@ -42,15 +42,17 @@ session_start();
 
 <div class="container" >
     <div class="login-box">
-        <h2>Login</h2>
+        <h2>Welcome</h2>
 
         <?php if (!empty($message)) : ?>
             <p class="error"><?php echo $message; ?></p>
         <?php endif; ?>
 
         <form method="POST">
+            <h3>Email</h3>
             <input type="text" name="username" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <h3>Password</h3>
+            <input type="password" name="password"required>
             <button type="submit">Login</button>
         </form>
     </div>
