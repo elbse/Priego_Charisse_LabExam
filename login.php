@@ -1,28 +1,36 @@
 <?php
-// Start the session
+
 session_start();
 
-// Hardcoded credentials (for demo only)
-// $valid_username = "admin";
-// $valid_password = "1234";
 
-// $message = "";
+if (!isset($_SESSION['users'])) {
+    $_SESSION['users'] = array();
+}
 
-// FIXED: CHECK REQUEST METHOD CORRECTLY
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$showSuccessPopup = false;
+$message = "";
 
-//     // Get the submitted username & password
-//     $username = $_POST["username"];
-//     $password = $_POST["password"];
 
-//     if ($username === $valid_username && $password === $valid_password) {
-//         $_SESSION["user"] = $username;
-//         header("Location: dashboard.php");
-//         exit();
-//     } else {
-//         $message = "Invalid username or password!";
-//     }
-// }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+   
+    $email = isset($_POST["username"]) ? trim($_POST["username"]) : "";
+    $password = isset($_POST["password"]) ? $_POST["password"] : "";
+
+    
+    $userFound = false;
+    foreach ($_SESSION['users'] as $user) {
+        if ($user['email'] === $email && $user['password'] === $password) {
+            $userFound = true;
+            $_SESSION["logged_in_user"] = $user;
+            $showSuccessPopup = true;
+            break;
+        }
+    }
+
+    if (!$userFound) {
+        $message = "Invalid email or password!";
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -37,7 +45,7 @@ session_start();
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body></body>
 
 <div class="logo">
     <img src="assets/Group10.png" alt="Logo">
@@ -51,22 +59,25 @@ session_start();
             <p class="error"><?php echo $message; ?></p>
         <?php endif; ?>
 
-        <form method="POST">
+        <form method="POST" id="loginForm">
             <h5>Email</h5>
             <input type="text" name="username" required>
             <h5>Password</h5>
-            <input type="password" name="password"required>
+            <input type="password" name="password" required>
             <button type="submit">Login</button>
         </form>
         <div class="line">
             <a href="#" class="forgot">Forgot Password?</a>
         </div>
 
-        <!-- Footer: Terms & Conditions + Sign Up -->
-        <div class="footer-links">
-            <p class="signup">Don’t have an account? <a href="#" class="signup-link">Sign Up</a></p>
+       
+       <div class="footer-links">
+            <p class="signup">
+                Don’t have an account? <a href="register.php" class="signup-link">Sign Up</a>
+            </p>
             <a href="#" class="terms">Terms & Conditions</a>
         </div>
+
 
 
     </div>
@@ -75,6 +86,32 @@ session_start();
 <div class="image">
     <img src="assets/Group12.png" alt="Image">
 </div>
+
+
+<?php if ($showSuccessPopup): ?>
+<div id="successPopup" class="popup">
+    <div class="popup-content">
+        <span class="popup-close" onclick="closePopup()">&times;</span>
+        <p>Signed In</p>
+    </div>
+</div>
+<script>
+  
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('successPopup').style.display = 'flex';
+       
+        setTimeout(function() {
+            closePopup();
+        }, 3000);
+    });
+</script>
+<?php endif; ?>
+
+<script>
+function closePopup() {
+    document.getElementById('successPopup').style.display = 'none';
+}
+</script>
 
 </body>
 </html>
