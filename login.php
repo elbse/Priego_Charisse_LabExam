@@ -58,7 +58,22 @@ session_start();
             <input type="password" name="password"required>
             <button type="submit">Login</button>
         </form>
+        <div class="line">
+            <a href="#" class="forgot">Forgot Password?</a>
+        </div>
+
+        <!-- Footer: Terms & Conditions + Sign Up -->
+        <div class="footer-links">
+            <p class="signup">Don’t have an account? <a href="#" class="signup-link">Sign Up</a></p>
+            <a href="#" class="terms">Terms & Conditions</a>
+        </div>
+
+
     </div>
+</div>
+
+<div class="image">
+    <img src="assets/Group12.png" alt="Image">
 </div>
 
 </body>

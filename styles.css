@@ -27,7 +27,7 @@ h2, h5 {
     border-radius: 10px;
     width: 300px;
     margin-top: -100px;
-    margin-left: 100px;
+    margin-left: 200px;
 
     }
 
@@ -54,7 +54,7 @@ input {
 
 button {
     width: 115%;
-    height: 40px;
+    height: 45px;
     margin-top: 15px;
     padding: 10px;
     background: #FCDD5A;
@@ -69,7 +69,7 @@ button {
     }
 
 button:hover {
-    background: #2980b9;
+    background: #D3C277;
     }
 
 .error {
@@ -97,3 +97,62 @@ button:hover {
     display: block;
 }
 
+.image{
+    margin-right: 200px;
+    width: 40%;
+
+}
+
+/* Forgot Password */
+.line {
+    margin-top: 10px;
+    text-align: end;
+}
+
+.line .forgot {
+    margin-right: -30px;
+    font-size: 14px;
+    color: #000000 !important; /* force black */
+    opacity: 1 !important;     /* ensure not faded */
+    text-decoration: none;
+}
+
+
+.forgot:hover {
+    opacity: 1;
+}
+
+/* Footer section */
+.footer-links {
+    margin-top: 25px;
+    text-align: center;
+    font-family: "Albert Sans", sans-serif;
+}
+
+.footer-links a {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #000000;
+    opacity: 0.6;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+}
+
+.signup {
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.signup-link {
+    color: #3498db;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
