@@ -1,0 +1,67 @@
+body { 
+    font-family: Arial; 
+    display: flex; 
+    justify-content: flex-start; 
+    align-items: center; 
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background-image: url("assets/Rectangle8.png");
+    background-repeat: no-repeat; /* Prevents image from tiling */
+    background-size: 110%; /* Scales image to cover the whole area */
+    background-position: center;
+    border: none;
+    }
+
+.login-box {
+    padding: 10px 60px;
+    border-radius: 10px;
+    width: 300px;
+    }
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    }
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #3498db;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    }
+
+button:hover {
+    background: #2980b9;
+    }
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 5px;
+    }
+
+.container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+}
+
+.logo img {
+    width: 250px;
+    height: auto;
+    display: block;
+}
+
