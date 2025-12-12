@@ -8,8 +8,8 @@ if (!isset($_SESSION['users'])) {
 }
 
 $showSuccessPopup = false;
-$message = "";
-
+$showErrorPopup = false;
+$errorMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    
@@ -23,8 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     foreach ($_SESSION['users'] as $user) {
         if ($user['email'] === $email) {
             $emailExists = true;
-            $message = "Email already registered!";
-            break;
+            $_SESSION["show_register_error"] = "Email already registered!";
+            // Redirect to prevent popup on reload
+            header("Location: register.php");
+            exit();
         }
     }
 
@@ -37,8 +39,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'password' => $password
         );
         $_SESSION['users'][] = $newUser;
-        $showSuccessPopup = true;
+        $_SESSION["show_register_success"] = true;
+        // Redirect to prevent popup on reload
+        header("Location: register.php");
+        exit();
     }
+}
+
+// Check if we should show success popup (only once)
+if (isset($_SESSION["show_register_success"]) && $_SESSION["show_register_success"] === true) {
+    $showSuccessPopup = true;
+    // Clear the flag so it doesn't show again on reload
+    unset($_SESSION["show_register_success"]);
+}
+
+// Check if we should show error popup (only once)
+if (isset($_SESSION["show_register_error"])) {
+    $showErrorPopup = true;
+    $errorMessage = $_SESSION["show_register_error"];
+    // Clear the flag so it doesn't show again on reload
+    unset($_SESSION["show_register_error"]);
 }
 ?>
 <!DOCTYPE html>
@@ -61,10 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
     <div class="login-box">
         <h2>Create Account</h2>
-
-        <?php if (!empty($message)) : ?>
-            <p class="error"><?php echo htmlspecialchars($message); ?></p>
-        <?php endif; ?>
 
         <form method="POST" id="registerForm">
             <h5>Full Name</h5>
@@ -100,25 +116,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php if ($showSuccessPopup): ?>
 <div id="successPopup" class="popup">
     <div class="popup-content">
-        <span class="popup-close" onclick="closePopup()">&times;</span>
+        <span class="popup-close" onclick="closePopup('successPopup')">&times;</span>
         <p>Account Created</p>
     </div>
 </div>
 <script>
-    
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('successPopup').style.display = 'flex';
-        
         setTimeout(function() {
-            closePopup();
+            closePopup('successPopup');
+        }, 3000);
+    });
+</script>
+<?php endif; ?>
+
+<?php if ($showErrorPopup): ?>
+<div id="errorPopup" class="popup">
+    <div class="popup-content popup-error">
+        <span class="popup-close" onclick="closePopup('errorPopup')">&times;</span>
+        <p><?php echo htmlspecialchars($errorMessage); ?></p>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('errorPopup').style.display = 'flex';
+        setTimeout(function() {
+            closePopup('errorPopup');
         }, 3000);
     });
 </script>
 <?php endif; ?>
 
 <script>
-function closePopup() {
-    document.getElementById('successPopup').style.display = 'none';
+function closePopup(popupId) {
+    document.getElementById(popupId).style.display = 'none';
 }
 </script>
 

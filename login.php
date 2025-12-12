@@ -8,8 +8,8 @@ if (!isset($_SESSION['users'])) {
 }
 
 $showSuccessPopup = false;
-$message = "";
-
+$showErrorPopup = false;
+$errorMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    
@@ -22,14 +22,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user['email'] === $email && $user['password'] === $password) {
             $userFound = true;
             $_SESSION["logged_in_user"] = $user;
-            $showSuccessPopup = true;
-            break;
+            $_SESSION["show_login_success"] = true;
+            // Redirect to prevent popup on reload
+            header("Location: login.php");
+            exit();
         }
     }
 
     if (!$userFound) {
-        $message = "Invalid email or password!";
+        $_SESSION["show_login_error"] = "Invalid email or password!";
+        // Redirect to prevent popup on reload
+        header("Location: login.php");
+        exit();
     }
+}
+
+// Check if we should show success popup (only once)
+if (isset($_SESSION["show_login_success"]) && $_SESSION["show_login_success"] === true) {
+    $showSuccessPopup = true;
+    // Clear the flag so it doesn't show again on reload
+    unset($_SESSION["show_login_success"]);
+}
+
+// Check if we should show error popup (only once)
+if (isset($_SESSION["show_login_error"])) {
+    $showErrorPopup = true;
+    $errorMessage = $_SESSION["show_login_error"];
+    // Clear the flag so it doesn't show again on reload
+    unset($_SESSION["show_login_error"]);
 }
 
 ?>
@@ -54,10 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container" >
     <div class="login-box">
         <h2>Welcome!</h2>
-
-        <?php if (!empty($message)) : ?>
-            <p class="error"><?php echo $message; ?></p>
-        <?php endif; ?>
 
         <form method="POST" id="loginForm">
             <h5>Email</h5>
@@ -91,25 +107,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php if ($showSuccessPopup): ?>
 <div id="successPopup" class="popup">
     <div class="popup-content">
-        <span class="popup-close" onclick="closePopup()">&times;</span>
+        <span class="popup-close" onclick="closePopup('successPopup')">&times;</span>
         <p>Signed In</p>
     </div>
 </div>
 <script>
-  
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('successPopup').style.display = 'flex';
-       
         setTimeout(function() {
-            closePopup();
+            closePopup('successPopup');
+        }, 3000);
+    });
+</script>
+<?php endif; ?>
+
+<?php if ($showErrorPopup): ?>
+<div id="errorPopup" class="popup">
+    <div class="popup-content popup-error">
+        <span class="popup-close" onclick="closePopup('errorPopup')">&times;</span>
+        <p><?php echo htmlspecialchars($errorMessage); ?></p>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('errorPopup').style.display = 'flex';
+        setTimeout(function() {
+            closePopup('errorPopup');
         }, 3000);
     });
 </script>
 <?php endif; ?>
 
 <script>
-function closePopup() {
-    document.getElementById('successPopup').style.display = 'none';
+function closePopup(popupId) {
+    document.getElementById(popupId).style.display = 'none';
 }
 </script>
 

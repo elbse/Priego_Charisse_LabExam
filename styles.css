@@ -185,7 +185,7 @@ button:hover {
     position: relative;
     font-family: "Albert Sans", sans-serif;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 300;
 }
 
 .popup-close {
@@ -206,4 +206,13 @@ button:hover {
 .popup-content p {
     margin: 0;
     color: #000;
+}
+
+.popup-error {
+    border: 2px solid #e74c3c;
+    background-color: #fff5f5;
+}
+
+.popup-error p {
+    color: #e74c3c;
 }
