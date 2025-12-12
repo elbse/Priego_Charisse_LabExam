@@ -32,6 +32,9 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -42,16 +45,16 @@ session_start();
 
 <div class="container" >
     <div class="login-box">
-        <h2>Welcome</h2>
+        <h2>Welcome!</h2>
 
         <?php if (!empty($message)) : ?>
             <p class="error"><?php echo $message; ?></p>
         <?php endif; ?>
 
         <form method="POST">
-            <h3>Email</h3>
+            <h5>Email</h5>
             <input type="text" name="username" required>
-            <h3>Password</h3>
+            <h5>Password</h5>
             <input type="password" name="password"required>
             <button type="submit">Login</button>
         </form>
